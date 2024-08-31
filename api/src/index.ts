@@ -1,8 +1,16 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import prisma from "./lib/prisma";
+import { cors } from "hono/cors";
 
 const app = new Hono();
+
+app.use(
+  "*",
+  cors({
+    origin: "*",
+  })
+);
 
 app.get("/", async (ctx) => {
   const todos = await prisma.todo.findMany();
